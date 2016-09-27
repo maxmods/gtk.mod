@@ -38,6 +38,8 @@ ScintillaQt::ScintillaQt(QAbstractScrollArea *parent)
 
 	wMain = scrollArea->viewport();
 
+	imeInteraction = imeInline;
+
 	// On OS X drawing text into a pixmap moves it around 1 pixel to
 	// the right compared to drawing it directly onto a window.
 	// Buffered drawing turned off by default to avoid this.
@@ -166,8 +168,8 @@ void ScintillaQt::SelectionChanged()
 
 bool ScintillaQt::DragThreshold(Point ptStart, Point ptNow)
 {
-	int xMove = abs(ptStart.x - ptNow.x);
-	int yMove = abs(ptStart.y - ptNow.y);
+	int xMove = std::abs(ptStart.x - ptNow.x);
+	int yMove = std::abs(ptStart.y - ptNow.y);
 	return (xMove > QApplication::startDragDistance()) ||
 		(yMove > QApplication::startDragDistance());
 }
@@ -496,7 +498,7 @@ QByteArray ScintillaQt::BytesForDocument(const QString &text) const
 class CaseFolderDBCS : public CaseFolderTable {
 	QTextCodec *codec;
 public:
-	CaseFolderDBCS(QTextCodec *codec_) : codec(codec_) {
+	explicit CaseFolderDBCS(QTextCodec *codec_) : codec(codec_) {
 		StandardASCII();
 	}
 	virtual size_t Fold(char *folded, size_t sizeFolded, const char *mixed, size_t lenMixed) {
@@ -650,6 +652,10 @@ sptr_t ScintillaQt::WndProc(unsigned int message, uptr_t wParam, sptr_t lParam)
 {
 	try {
 		switch (message) {
+
+		case SCI_SETIMEINTERACTION:
+			// Only inline IME supported on Qt
+			break;
 
 		case SCI_GRABFOCUS:
 			scrollArea->setFocus(Qt::OtherFocusReason);

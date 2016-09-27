@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <ctype.h>
 
+#include <stdexcept>
 #include <vector>
 
 #include "ILexer.h"
@@ -90,6 +91,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmBaan);
 	LINK_LEXER(lmBash);
 	LINK_LEXER(lmBatch);
+	LINK_LEXER(lmBibTeX);
 	LINK_LEXER(lmBlitzBasic);
 	LINK_LEXER(lmBullant);
 	LINK_LEXER(lmCaml);
@@ -122,7 +124,9 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmGui4Cli);
 	LINK_LEXER(lmHaskell);
 	LINK_LEXER(lmHTML);
+	LINK_LEXER(lmIHex);
 	LINK_LEXER(lmInno);
+	LINK_LEXER(lmJSON);
 	LINK_LEXER(lmKix);
 	LINK_LEXER(lmKVIrc);
 	LINK_LEXER(lmLatex);
@@ -173,12 +177,14 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmSpecman);
 	LINK_LEXER(lmSpice);
 	LINK_LEXER(lmSQL);
+	LINK_LEXER(lmSrec);
 	LINK_LEXER(lmSTTXT);
 	LINK_LEXER(lmTACL);
 	LINK_LEXER(lmTADS3);
 	LINK_LEXER(lmTAL);
 	LINK_LEXER(lmTCL);
 	LINK_LEXER(lmTCMD);
+	LINK_LEXER(lmTEHex);
 	LINK_LEXER(lmTeX);
 	LINK_LEXER(lmTxt2tags);
 	LINK_LEXER(lmVB);

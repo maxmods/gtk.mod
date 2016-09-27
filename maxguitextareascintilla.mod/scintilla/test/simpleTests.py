@@ -139,7 +139,6 @@ class TestSimple(unittest.TestCase):
 		data = b"x" * 70 + b"\n"
 		for i in range(5):
 			self.ed.AddText(len(data), data)
-			self.xite.DoEvents()
 			self.assertEquals(self.ed.LineCount, i + 2)
 		self.assert_(self.ed.Length > 0)
 
@@ -494,13 +493,15 @@ class TestSimple(unittest.TestCase):
 		self.ed.AddText(5, b"a1b2c")
 		self.ed.SetSel(1,3)
 		self.ed.Cut()
-		self.xite.DoEvents()
+		# Clipboard = "1b"
+		self.assertEquals(self.ed.Contents(), b"a2c")
 		self.assertEquals(self.ed.CanPaste(), 1)
 		self.ed.SetSel(0, 0)
 		self.ed.Paste()
 		self.assertEquals(self.ed.Contents(), b"1ba2c")
 		self.ed.SetSel(4,5)
 		self.ed.Copy()
+		# Clipboard = "c"
 		self.ed.SetSel(1,3)
 		self.ed.Paste()
 		self.assertEquals(self.ed.Contents(), b"1c2c")
@@ -509,13 +510,12 @@ class TestSimple(unittest.TestCase):
 		self.assertEquals(self.ed.Contents(), b"1c")
 
 	def testCopyAllowLine(self):
-		self.xite.DoEvents()
 		lineEndType = self.ed.EOLMode
 		self.ed.EOLMode = self.ed.SC_EOL_LF
 		self.ed.AddText(5, b"a1\nb2")
 		self.ed.SetSel(1,1)
 		self.ed.CopyAllowLine()
-		self.xite.DoEvents()
+		# Clipboard = "a1\n"
 		self.assertEquals(self.ed.CanPaste(), 1)
 		self.ed.SetSel(0, 0)
 		self.ed.Paste()
@@ -577,6 +577,14 @@ class TestSimple(unittest.TestCase):
 		self.assertEquals(self.ed.TargetStart, 4)
 		self.assertEquals(self.ed.TargetEnd, 5)
 
+	def testTargetWhole(self):
+		self.ed.SetContents(b"abcd")
+		self.ed.TargetStart = 1
+		self.ed.TargetEnd = 3
+		self.ed.TargetWholeDocument()
+		self.assertEquals(self.ed.TargetStart, 0)
+		self.assertEquals(self.ed.TargetEnd, 4)
+
 	def testTargetEscape(self):
 		# Checks that a literal \ can be in the replacement. Bug #2959876
 		self.ed.SetContents(b"abcd")
@@ -619,6 +627,18 @@ class TestSimple(unittest.TestCase):
 		self.assertEquals(self.ed.WordEndPosition(4, 0), 5)
 		self.assertEquals(self.ed.WordEndPosition(5, 0), 6)
 		self.assertEquals(self.ed.WordEndPosition(6, 0), 8)
+
+	def testWordRange(self):
+		text = b"ab cd\t++"
+		self.ed.AddText(len(text), text)
+		self.assertEquals(self.ed.IsRangeWord(0, 0), 0)
+		self.assertEquals(self.ed.IsRangeWord(0, 1), 0)
+		self.assertEquals(self.ed.IsRangeWord(0, 2), 1)
+		self.assertEquals(self.ed.IsRangeWord(0, 3), 0)
+		self.assertEquals(self.ed.IsRangeWord(0, 4), 0)
+		self.assertEquals(self.ed.IsRangeWord(0, 5), 1)
+		self.assertEquals(self.ed.IsRangeWord(6, 7), 0)
+		self.assertEquals(self.ed.IsRangeWord(6, 8), 1)
 
 MODI = 1
 UNDO = 2
@@ -1108,6 +1128,40 @@ class TestSearch(unittest.TestCase):
 		self.assertEquals(-1, self.ed.FindBytes(0, self.ed.Length, b"\\xAB", flags))
 		self.assertEquals(0, self.ed.FindBytes(0, self.ed.Length, b"\\xAD", flags))
 
+	def testMultipleAddSelection(self):
+		# Find both 'a'
+		self.assertEquals(self.ed.MultipleSelection, 0)
+		self.ed.MultipleSelection = 1
+		self.assertEquals(self.ed.MultipleSelection, 1)
+		self.ed.TargetWholeDocument()
+		self.ed.SearchFlags = 0
+		self.ed.SetSelection(1, 0)
+		self.assertEquals(self.ed.Selections, 1)
+		self.ed.MultipleSelectAddNext()
+		self.assertEquals(self.ed.Selections, 2)
+		self.assertEquals(self.ed.GetSelectionNAnchor(0), 0)
+		self.assertEquals(self.ed.GetSelectionNCaret(0), 1)
+		self.assertEquals(self.ed.GetSelectionNAnchor(1), 8)
+		self.assertEquals(self.ed.GetSelectionNCaret(1), 9)
+		self.ed.MultipleSelection = 0
+
+	def testMultipleAddEachSelection(self):
+		# Find each 'b'
+		self.assertEquals(self.ed.MultipleSelection, 0)
+		self.ed.MultipleSelection = 1
+		self.assertEquals(self.ed.MultipleSelection, 1)
+		self.ed.TargetWholeDocument()
+		self.ed.SearchFlags = 0
+		self.ed.SetSelection(3, 2)
+		self.assertEquals(self.ed.Selections, 1)
+		self.ed.MultipleSelectAddEach()
+		self.assertEquals(self.ed.Selections, 2)
+		self.assertEquals(self.ed.GetSelectionNAnchor(0), 2)
+		self.assertEquals(self.ed.GetSelectionNCaret(0), 3)
+		self.assertEquals(self.ed.GetSelectionNAnchor(1), 6)
+		self.assertEquals(self.ed.GetSelectionNCaret(1), 7)
+		self.ed.MultipleSelection = 0
+
 class TestRepresentations(unittest.TestCase):
 
 	def setUp(self):
@@ -1169,8 +1223,6 @@ class TestTextMargin(unittest.TestCase):
 		self.assertEquals(self.ed.ExtraAscent, 1)
 		self.ed.ExtraDescent = 2
 		self.assertEquals(self.ed.ExtraDescent, 2)
-		# Allow line height to recalculate
-		self.xite.DoEvents()
 		lineHeightIncreased = self.ed.TextHeight(0)
 		self.assertEquals(lineHeightIncreased, lineHeight + 2 + 1)
 
@@ -1526,6 +1578,7 @@ class TestCharacterNavigation(unittest.TestCase):
 		tv = t.encode("UTF-8")
 		self.ed.SetContents(tv)
 		self.assertEquals(self.ed.PositionRelative(1, 2), 6)
+		self.assertEquals(self.ed.CountCharacters(1, 6), 2)
 		self.assertEquals(self.ed.PositionRelative(6, -2), 1)
 		pos = 0
 		previous = 0
@@ -1541,6 +1594,13 @@ class TestCharacterNavigation(unittest.TestCase):
 			self.assert_(after < pos)
 			self.assert_(after < previous)
 			previous = after
+
+	def testLineEnd(self):
+		t = "a\r\nb\nc"
+		tv = t.encode("UTF-8")
+		self.ed.SetContents(tv)
+		for i in range(0, len(t)):
+			self.assertEquals(self.ed.CountCharacters(0, i), i)
 
 class TestCaseMapping(unittest.TestCase):
 	def setUp(self):

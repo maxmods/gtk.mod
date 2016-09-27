@@ -3,16 +3,17 @@
 // and each of these groups are then divided into directory groups.
 
 // C standard library
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <stddef.h>
 #include <stdarg.h>
 #include <time.h>
 #include <math.h>
 #include <assert.h>
 #include <ctype.h>
 #include <limits.h>
+#include <sys/time.h>
 
 // C++ wrappers of C standard library
 #include <cstdlib>
@@ -20,16 +21,21 @@
 #include <cstring>
 #include <cctype>
 #include <cstdio>
+#include <cmath>
 
 // C++ standard library
 #include <stdexcept>
 #include <new>
 #include <string>
 #include <vector>
+#include <deque>
 #include <map>
 #include <set>
 #include <algorithm>
+#include <functional>
 #include <memory>
+#include <regex>
+#include <sstream>
 
 // GTK+ headers
 #include <glib.h>
@@ -50,6 +56,10 @@
 
 // Cocoa headers
 #include <Cocoa/Cocoa.h>
+#import <Foundation/NSGeometry.h>
+#import <QuartzCore/CAGradientLayer.h>
+#import <QuartzCore/CAAnimation.h>
+#import <QuartzCore/CATransaction.h>
 
 // Scintilla headers
 
@@ -84,6 +94,7 @@
 // src
 #include "Catalogue.h"
 
+#include "Position.h"
 #include "SplitVector.h"
 #include "Partitioning.h"
 #include "RunStyles.h"
@@ -101,6 +112,7 @@
 #include "Decoration.h"
 #include "CaseFolder.h"
 #include "Document.h"
+#include "RESearch.h"
 #include "CaseConvert.h"
 #include "UniConversion.h"
 #include "UnicodeFromUTF8.h"
@@ -121,12 +133,18 @@
 
 // win32
 #include "PlatWin.h"
+#include "HanjaDic.h"
 
 // gtk
+#include "scintilla-marshal.h"
 #include "Converter.h"
 
 // cocoa
 #include "QuartzTextStyle.h"
 #include "QuartzTextStyleAttribute.h"
+#include "QuartzTextLayout.h"
 #import "InfoBarCommunicator.h"
 #include "InfoBar.h"
+#import "ScintillaView.h"
+#import "ScintillaCocoa.h"
+#import "PlatCocoa.h"
