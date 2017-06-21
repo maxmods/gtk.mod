@@ -599,24 +599,24 @@ End Rem
 	internal: Pops up a font requester.
 	End Rem
 	Method RequestFont:TGuiFont(font:TGuiFont)
-'		Local req:Byte Ptr = gtk_font_selection_dialog_new("Choose font")
-'		If font Then
-'			getPangoDescriptionFromGuiFont(TGtkGuiFont(font))
-'			gtk_font_selection_dialog_set_font_name(req, pango_font_description_to_string(TGtkGuiFont(font).fontDesc))
-'		End If
-'
-'		Local res:Int = gtk_dialog_run(req)
-'
-'		If res = GTK_RESPONSE_OK Then
-'			' the requestor returns a Pango font description... so we need to 
-'			Local fontdesc:Byte Ptr = pango_font_description_from_string(gtk_font_selection_dialog_get_font_name(req))
-'
-'			font = getGuiFontFromPangoDescription(fontdesc)
-'		End If
-'
-'		gtk_widget_destroy(req)
-'
-'		Return font
+		Local req:Byte Ptr = gtk_font_chooser_dialog_new("Choose font", Null)
+		If font Then
+			getPangoDescriptionFromGuiFont(TGtkGuiFont(font))
+			gtk_font_chooser_set_font_desc(req, TGtkGuiFont(font).fontDesc)
+		End If
+
+		Local res:Int = gtk_dialog_run(req)
+
+		If res = GTK_RESPONSE_OK Then
+			' the requestor returns a Pango font description... so we need to 
+			Local fontdesc:Byte Ptr = gtk_font_chooser_get_font_desc(req)
+
+			font = getGuiFontFromPangoDescription(fontdesc)
+		End If
+
+		gtk_widget_destroy(req)
+
+		Return font
 	End Method
 
 	Method SetPointer:Int(shape:Int)

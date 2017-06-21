@@ -544,6 +544,11 @@ Extern
 	Function gtk_color_selection_get_current_rgba(handle:Byte Ptr, rgba:Byte Ptr)
 ?
 	
+	' GtkFontChooserDialog
+	Function gtk_font_chooser_dialog_new:Byte Ptr(title:Byte Ptr, parent:Byte Ptr)
+	Function gtk_font_chooser_set_font_desc(handle:Byte Ptr, desc:Byte Ptr)
+	Function gtk_font_chooser_get_font_desc:Byte Ptr(handle:Byte Ptr)
+	
 	' glue
 	Function bmx_gtk3_gtkdesktop_gethertz:Int()
 	Function bmx_gtk3_gvalue_new:Byte Ptr(_type:Int)
