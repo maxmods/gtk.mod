@@ -154,7 +154,7 @@ Extern
 	Function pango_font_description_get_size:Int(handle:Byte Ptr)
 	Function pango_context_set_font_description(handle:Byte Ptr, desc:Byte Ptr)
 	Function pango_context_load_fontset:Byte Ptr(handle:Byte Ptr, desc:Byte Ptr, language:Byte Ptr)
-	Function pango_fontset_foreach(fontset:Byte Ptr, func(_set:Byte Ptr, _font:Byte Ptr ,data:Object), data:Object)
+	Function pango_fontset_foreach(fontset:Byte Ptr, func:Int(_set:Byte Ptr, _font:Byte Ptr ,data:Object), data:Object)
 	Function pango_font_describe:Byte Ptr(font:Byte Ptr)
 	
 	' pango layout
@@ -219,9 +219,12 @@ Extern
 	
 	' signals
 	Function g_signal_cb2:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr, gadget:Object), gadget:Object, destroyhandler(data:Byte Ptr, user: Byte Ptr), flag:Int) = "g_signal_connect_data"
+	Function g_signal_cb2_ret:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback:Int(widget:Byte Ptr, gadget:Object), gadget:Object, destroyhandler(data:Byte Ptr, user: Byte Ptr), flag:Int) = "g_signal_connect_data"
 	Function g_signal_cb3:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr, event:Byte Ptr, gadget:Object), gadget:Object, destroyhandler(data:Byte Ptr, user: Byte Ptr), flag:Int) = "g_signal_connect_data"
+	Function g_signal_cb3_ret:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback:Int(widget:Byte Ptr, event:Byte Ptr, gadget:Object), gadget:Object, destroyhandler(data:Byte Ptr, user: Byte Ptr), flag:Int) = "g_signal_connect_data"
+	Function g_signal_cb3a_ret:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback:Int(widget:Byte Ptr, value:Int, gadget:Object), gadget:Object, destroyhandler(data:Byte Ptr, user: Byte Ptr), flag:Int) = "g_signal_connect_data"
 	Function g_signal_cb4:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr,url:Byte Ptr,stream:Byte Ptr,gadget:Object),gadget:Object,destroyhandler(data:Byte Ptr,user: Byte Ptr),flag:Int) = "g_signal_connect_data"
-	Function g_signal_cb4a:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr,val1:Int,val2:Double,gadget:Object),gadget:Object,destroyhandler(data:Byte Ptr,user: Byte Ptr),flag:Int) = "g_signal_connect_data"
+	Function g_signal_cb4a:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback:Int(widget:Byte Ptr,val1:Int,val2:Double,gadget:Object),gadget:Object,destroyhandler(data:Byte Ptr,user: Byte Ptr),flag:Int) = "g_signal_connect_data"
 	Function g_signal_cb5:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr,val1:Int,val2:Int,val3:Int,gadget:Object),gadget:Object,destroyhandler(data:Byte Ptr,user: Byte Ptr),flag:Int) = "g_signal_connect_data"
 	Function g_signal_handler_disconnect(gtkwidget:Byte Ptr, handlerid:Long)
 	Function g_signal_tabchange:Int(gtkwidget:Byte Ptr, name:Byte Ptr, callback(widget:Byte Ptr,a:Byte Ptr, index:Int,gadget:Object),gadget:Object,destroyhandler(data:Byte Ptr,user: Byte Ptr),flag:Int) = "g_signal_connect_data"
