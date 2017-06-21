@@ -533,6 +533,17 @@ Extern
 	' GtkIconTheme
 	Function gtk_icon_theme_add_builtin_icon(name$z, size:Int, pixbuf:Byte Ptr)
 
+	' GtkColorSelection
+	Function gtk_color_selection_dialog_new:Byte Ptr(title:Byte Ptr)
+	Function gtk_color_selection_dialog_get_color_selection:Byte Ptr(handle:Byte Ptr)
+?bmxng
+	Function gtk_color_selection_set_current_rgba(handle:Byte Ptr, rgba:GdkRGBA Var)
+	Function gtk_color_selection_get_current_rgba(handle:Byte Ptr, rgba:GdkRGBA Var)
+?Not bmxng
+	Function gtk_color_selection_set_current_rgba(handle:Byte Ptr, rgba:Byte Ptr)
+	Function gtk_color_selection_get_current_rgba(handle:Byte Ptr, rgba:Byte Ptr)
+?
+	
 	' glue
 	Function bmx_gtk3_gtkdesktop_gethertz:Int()
 	Function bmx_gtk3_gvalue_new:Byte Ptr(_type:Int)

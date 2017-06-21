@@ -569,34 +569,30 @@ End Rem
 
 	Rem
 	internal: Pops up a color requester
-	about: FIXME: Seem to have rounding errors somewhere....
 	End Rem
 	Method RequestColor:Int(r:Int, g:Int, b:Int)
-'		Local argb:Int = Null
-'
-'		' populate the color object, ensuring values in valid range, then scale up
-'		Local color:Byte Ptr = bmx_gtk_gdkcolor_new(Max(0, Min(r, 255)) * 256, Max(0, Min(g, 255)) * 256, Max(0, Min(b, 255)) * 256)
-'
-'		Local req:Byte Ptr = gtk_color_selection_dialog_new("Select color")
-'		Local colsel:Byte Ptr = gtk_color_selection_dialog_get_color_selection(req)
-'		gtk_color_selection_set_current_color(colsel, color)
-'
-'		Local res:Int = gtk_dialog_run(req)
-'
-'		If res = GTK_RESPONSE_OK Then
-'			gtk_color_selection_get_current_color(colsel, color)
-'			
-'			bmx_gtk_gdkcolor_color(color, Varptr r, Varptr g, Varptr b)
-'			
-'			' need to scale down and populate argb var
-'			argb = $ff000000 | (((r Shr 8)&255)Shl 16) | (((g Shr 8)&255)Shl 8) | ((b Shr 8)&255)
-'		End If
-'		
-'		bmx_gtk_gdkcolor_free(color)
-'		
-'		gtk_widget_destroy(req)
-'
-'		Return argb
+		Local argb:Int = Null
+
+		Local color:GdkRGBA = New GdkRGBA
+		color.red = r / 255.0
+		color.green = g / 255.0
+		color.blue = b / 255.0
+
+		Local req:Byte Ptr = gtk_color_selection_dialog_new("Select color")
+		Local colsel:Byte Ptr = gtk_color_selection_dialog_get_color_selection(req)
+		gtk_color_selection_set_current_rgba(colsel, color)
+
+		Local res:Int = gtk_dialog_run(req)
+
+		If res = GTK_RESPONSE_OK Then
+			gtk_color_selection_get_current_rgba(colsel, color)
+
+			argb = $ff000000 | (color.red * 255) Shl 16 | (color.green * 255) Shl 8  | (color.blue * 255) 
+		End If
+
+		gtk_widget_destroy(req)
+
+		Return argb
 	End Method
 
 	Rem
