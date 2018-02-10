@@ -1,4 +1,4 @@
-' Copyright (c) 2006-2016 Bruce A Henderson
+' Copyright (c) 2006-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ Type TGTK3GuiSystemDriver Extends TGTK3SystemDriver
 	Field gsource:Byte Ptr
 ?
 	
-	Method Poll:Int()
+	Method Poll()
 		While gtk_events_pending()
 			gtk_main_iteration_do(False)
 '			bbSystemPoll() ' dont't think we need this now?
@@ -47,7 +47,7 @@ Type TGTK3GuiSystemDriver Extends TGTK3SystemDriver
 ?
 	End Method
 		
-	Method Wait:Int()
+	Method Wait()
 		gtk_main_iteration_do(True)
 	End Method
 			
@@ -74,11 +74,11 @@ Type TGTK3SystemDriver Extends TSystemDriver
 		NativeDriver=brl.System.Driver
 	End Method
 	
-	Method Poll:Int()
+	Method Poll()
 		NativeDriver.Poll()
 	End Method
 		
-	Method Wait:Int()
+	Method Wait()
 		NativeDriver.Wait()
 	End Method
 	
@@ -90,18 +90,18 @@ Type TGTK3SystemDriver Extends TSystemDriver
 		Return False
 	End Method	
 
-	Method SetMouseVisible:Int(bool:Int)
+	Method SetMouseVisible(bool:Int)
 		NativeDriver.SetMouseVisible bool
 	End Method
 
-	Method MoveMouse:Int( x:Int, y:Int )
+	Method MoveMouse( x:Int, y:Int )
 		NativeDriver.MoveMouse x,y
 	End Method
 
 	Rem
 	internal: Notify user.
 	End Rem
-	Method Notify:Int( text:String, serious:Int )
+	Method Notify( text:String, serious:Int )
 		If text = Null Then
 			text = ""
 		End If
