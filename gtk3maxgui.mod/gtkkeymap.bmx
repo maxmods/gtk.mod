@@ -55,7 +55,7 @@ Const GDK_quoteright:Int = 39
 Const GDK_parenleft:Int = 40
 Const GDK_parenright:Int = 41
 Const GDK_asterisk:Int = 42
-Const GDK_plus:Int = 43
+Const GDK_key_plus:Int = 43
 Const GDK_comma:Int = 44
 Const GDK_minus:Int = 45
 Const GDK_period:Int = 46
@@ -335,7 +335,7 @@ Type TGTKKeyMap
 			
 			map[KEY_TILDE] = GDK_quotedbl
 			map[KEY_MINUS] = GDK_minus
-			map[KEY_EQUALS] = GDK_plus
+			map[KEY_EQUALS] = GDK_key_plus
 			
 			map[KEY_OPENBRACKET] = GDK_bracketleft
 			map[KEY_CLOSEBRACKET] = GDK_bracketright
@@ -429,7 +429,7 @@ Type TGTKKeyMap
 				gtkmap =  KEY_TILDE
 			Case GDK_minus
 				gtkmap =  KEY_MINUS
-			Case GDK_plus
+			Case GDK_key_plus
 				gtkmap =  KEY_EQUALS
 			
 			Case GDK_bracketleft

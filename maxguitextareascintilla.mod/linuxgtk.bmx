@@ -1,4 +1,4 @@
-' Copyright (c) 2014-2016 Bruce A Henderson
+' Copyright (c) 2014-2018 Bruce A Henderson
 ' 
 ' Permission is hereby granted, free of charge, to any person obtaining a copy
 ' of this software and associated documentation files (the "Software"), to deal
@@ -199,7 +199,11 @@ Type TGTKScintillaTextArea Extends TGTKTextArea
 
 		bmx_mgta_scintilla_appendtext(sciPtr, text)
 
+?bmxng
+		IWrappedSystemDriver(SystemDriver()).GetDriver().Poll()
+?Not bmxng
 		brl.System.Driver.Poll() ' update events, before scrolling to the end...
+?
 		bmx_mgta_scintilla_scrolltoend(sciPtr)
 	End Method
 
