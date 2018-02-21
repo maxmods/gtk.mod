@@ -61,6 +61,7 @@ Extern
 	Function gdk_screen_get_width:Int(handle:Byte Ptr)
 	Function gdk_screen_get_height:Int(handle:Byte Ptr)
 	Function gdk_screen_get_system_visual:Byte Ptr(handle:Byte Ptr)
+	Function gdk_screen_get_display:Byte Ptr(screen:Byte Ptr)
 	
 	' visuals
 	Function gdk_visual_get_depth:Int(handle:Byte Ptr)
@@ -68,6 +69,8 @@ Extern
 	' gdkdisplay
 	Function gdk_display_get_default:Byte Ptr()
 
+	' gdkcursor
+	Function gdk_cursor_new_for_display:Byte Ptr(display:Byte Ptr, cursorType:Int)
 
 	' gtkmessagedialog
 	Function gtk_message_dialog_new:Byte Ptr(parent:Byte Ptr, flags:Int, _type:Int, buttons:Int, message:Byte Ptr)
@@ -110,6 +113,7 @@ Extern
 	Function gtk_widget_get_pango_context:Byte Ptr(handle:Byte Ptr)
 	Function gtk_widget_get_style_context:Byte Ptr(handle:Byte Ptr)
 	Function gtk_widget_get_window:Byte Ptr(handle:Byte Ptr)
+	Function gtk_widget_has_focus:Int(handle:Byte Ptr)
 	
 	' gtkfilechooserdialog
 	Function gtk_file_chooser_dialog_new:Byte Ptr(title:Byte Ptr, parent:Byte Ptr, action:Int, but1$z, opt1:Int, but2$z, opt2:Int, opt3:Byte Ptr)
@@ -189,6 +193,7 @@ Extern
 	Function gtk_window_get_title:Byte Ptr(handle:Byte Ptr)
 	Function gtk_window_maximize(handle:Byte Ptr)
 	Function gtk_window_iconify(handle:Byte Ptr)
+	Function gtk_window_get_focus:Byte Ptr(handle:Byte Ptr)
 	
 	' GtkBox
 	Function gtk_box_new:Byte Ptr(orientation:Int, spacing:Int)
@@ -442,6 +447,7 @@ Extern
 	
 	' GdkWindow
 	Function gdk_window_get_device_position:Byte Ptr(handle:Byte Ptr, device:Byte Ptr, x:Int Var, y:Int Var, mask:Int Var)
+	Function gdk_window_set_cursor(handle:Byte Ptr, cursor:Byte Ptr)
 	
 	' GdkCairo
 	Function gdk_cairo_create:Byte Ptr(handle:Byte Ptr)
@@ -820,6 +826,87 @@ Const PANGO_TAB_LEFT:Int = 0
 Const PANGO_TAB_RIGHT:Int = 1
 Const PANGO_TAB_CENTER:Int = 2
 Const PANGO_TAB_NUMERIC:Int = 3
+
+' GdkCursorType
+Const GDK_X_CURSOR:Int = 0
+Const GDK_ARROW:Int = 2
+Const GDK_BASED_ARROW_DOWN:Int = 4
+Const GDK_BASED_ARROW_UP:Int = 6
+Const GDK_BOAT:Int = 8
+Const GDK_BOGOSITY:Int = 10
+Const GDK_BOTTOM_LEFT_CORNER:Int = 12
+Const GDK_BOTTOM_RIGHT_CORNER:Int = 14
+Const GDK_BOTTOM_SIDE:Int = 16
+Const GDK_BOTTOM_TEE:Int = 18
+Const GDK_BOX_SPIRAL:Int = 20
+Const GDK_CENTER_PTR:Int = 22
+Const GDK_CIRCLE:Int = 24
+Const GDK_CLOCK:Int = 26
+Const GDK_COFFEE_MUG:Int = 28
+Const GDK_CROSS:Int = 30
+Const GDK_CROSS_REVERSE:Int = 32
+Const GDK_CROSSHAIR:Int = 34
+Const GDK_DIAMOND_CROSS:Int = 36
+Const GDK_DOT:Int = 38
+Const GDK_DOTBOX:Int = 40
+Const GDK_DOUBLE_ARROW:Int = 42
+Const GDK_DRAFT_LARGE:Int = 44
+Const GDK_DRAFT_SMALL:Int = 46
+Const GDK_DRAPED_BOX:Int = 48
+Const GDK_EXCHANGE:Int = 50
+Const GDK_FLEUR:Int = 52
+Const GDK_GOBBLER:Int = 54
+Const GDK_GUMBY:Int = 56
+Const GDK_HAND1:Int = 58
+Const GDK_HAND2:Int = 60
+Const GDK_HEART:Int = 62
+Const GDK_ICON:Int = 64
+Const GDK_IRON_CROSS:Int = 66
+Const GDK_LEFT_PTR:Int = 68
+Const GDK_LEFT_SIDE:Int = 70
+Const GDK_LEFT_TEE:Int = 72
+Const GDK_LEFTBUTTON:Int = 74
+Const GDK_LL_ANGLE:Int = 76
+Const GDK_LR_ANGLE:Int = 78
+Const GDK_MAN:Int = 80
+Const GDK_MIDDLEBUTTON:Int = 82
+Const GDK_MOUSE:Int = 84
+Const GDK_PENCIL:Int = 86
+Const GDK_PIRATE:Int = 88
+Const GDK_PLUS:Int = 90
+Const GDK_QUESTION_ARROW:Int = 92
+Const GDK_RIGHT_PTR:Int = 94
+Const GDK_RIGHT_SIDE:Int = 96
+Const GDK_RIGHT_TEE:Int = 98
+Const GDK_RIGHTBUTTON:Int = 100
+Const GDK_RTL_LOGO:Int = 102
+Const GDK_SAILBOAT:Int = 104
+Const GDK_SB_DOWN_ARROW:Int = 106
+Const GDK_SB_H_DOUBLE_ARROW:Int = 108
+Const GDK_SB_LEFT_ARROW:Int = 110
+Const GDK_SB_RIGHT_ARROW:Int = 112
+Const GDK_SB_UP_ARROW:Int = 114
+Const GDK_SB_V_DOUBLE_ARROW:Int = 116
+Const GDK_SHUTTLE:Int = 118
+Const GDK_SIZING:Int = 120
+Const GDK_SPIDER:Int = 122
+Const GDK_SPRAYCAN:Int = 124
+Const GDK_STAR:Int = 126
+Const GDK_TARGET:Int = 128
+Const GDK_TCROSS:Int = 130
+Const GDK_TOP_LEFT_ARROW:Int = 132
+Const GDK_TOP_LEFT_CORNER:Int = 134
+Const GDK_TOP_RIGHT_CORNER:Int = 136
+Const GDK_TOP_SIDE:Int = 138
+Const GDK_TOP_TEE:Int = 140
+Const GDK_TREK:Int = 142
+Const GDK_UL_ANGLE:Int = 144
+Const GDK_UMBRELLA:Int = 146
+Const GDK_UR_ANGLE:Int = 148
+Const GDK_WATCH:Int = 150
+Const GDK_XTERM:Int = 152
+Const GDK_BLANK_CURSOR:Int = -2
+Const GDK_CURSOR_IS_PIXMAP:Int = -1
 
 ' List of application windows
 ' We use it for SetPointer etc.

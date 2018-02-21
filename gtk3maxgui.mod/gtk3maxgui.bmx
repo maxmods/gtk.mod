@@ -20,9 +20,13 @@
 ' 
 Module Gtk.GTK3MaxGUI
 
-ModuleInfo "Version: 2.00"
+ModuleInfo "Version: 2.01"
 ModuleInfo "License: MIT"
 ModuleInfo "Copyright: 2006-2018 Bruce A Henderson"
+
+ModuleInfo "History: 2.01"
+ModuleInfo "History: Updated for new NG system driver."
+ModuleInfo "History: Implemented some missing functionality."
 
 ?Linux
 ' glib

@@ -64,16 +64,32 @@ Type TGTK3GuiSystemDriver Extends TGTK3SystemDriver
 	
 End Type
 
+?bmxng
+Type TGTK3SystemDriver Extends TSystemDriver Implements IWrappedSystemDriver
+?Not bmxng
 Type TGTK3SystemDriver Extends TSystemDriver
-
+?
 	Field NativeDriver:TSystemDriver
 	
 	Field _desktop:TGTKDesktop
 
+?Not bmxng
 	Method New()
 		NativeDriver=brl.System.Driver
 	End Method
+?bmxng
+	Method SetDriver(driver:TSystemDriver)
+		NativeDriver = driver
+	End Method
 	
+	Method GetDriver:TSystemDriver()
+		Return NativeDriver
+	End Method
+	
+	Method Name:String()
+		Return "GTK3SystemDriver"
+	End Method
+?
 	Method Poll()
 		NativeDriver.Poll()
 	End Method
@@ -378,7 +394,11 @@ End Type
 Type TGTK3GUIDriver Extends TMaxGUIDriver
 
 	Method New()
+?bmxng
+		InitSystemDriver(TGTK3GuiSystemDriver.Create(Self))
+?Not bmxng
 		brl.System.Driver=TGTK3GuiSystemDriver.Create(Self)
+?
 		gtk_init(Null, Null)
 		maxgui_driver=Self
 	End Method
@@ -549,22 +569,17 @@ End Rem
 	internal: Returns the currently active gadget.
 	End Rem
 	Method ActiveGadget:TGadget()
-'		Local handle:Int
-'		For Local w:TGTKWindow = EachIn gtkWindows
-'			' get the focussed widget for the window
-'			Local widget:Byte Ptr = gtk_window_get_focus(w.handle)
-'			
-'			If widget Then ' we need a gadget to test!
-'				' but is this window currently in focus (belonging to the toplevel window?)
-'				If gtk_widget_has_focus(widget) Then
-'					handle = Int Ptr(widget)[0]
-'				End If
-'	
-'				If handle Then
-'					Return GadgetFromHandle(handle)
-'				End If
-'			End If
-'		Next
+		For Local w:TGTKWindow = EachIn gtkWindows
+			' get the focussed widget for the window
+			Local widget:Byte Ptr = gtk_window_get_focus(w.handle)
+			
+			If widget Then ' we need a gadget to test!
+				' but is this window currently in focus (belonging to the toplevel window?)
+				If gtk_widget_has_focus(widget) Then
+					Return GadgetFromHandle(widget)
+				End If
+			End If
+		Next
 	End Method
 
 	Rem
@@ -620,9 +635,8 @@ End Rem
 	End Method
 
 	Method SetPointer:Int(shape:Int)
-Rem
 		Local screen:Byte Ptr = gdk_screen_get_default()
-		
+
 		Local cursorType:Int
 		Select shape
 			'Case POINTER_DEFAULT
@@ -664,7 +678,6 @@ Rem
 				gdk_window_set_cursor(gtk_widget_get_window(window.handle), cursor)
 			End If
 		Next
-End Rem
 	End Method
 
 	Method LoadIconStrip:TIconStrip(source:Object)
@@ -702,8 +715,8 @@ End Rem
 	
 End Type
 
-Function GadgetFromHandle:TGTKGadget( handle:Int )
-'	Return TGTKGadget( GadgetMap.ValueForKey( TGTKInteger.Set(handle) ) )
+Function GadgetFromHandle:TGTKGadget( handle:Byte Ptr )
+	Return TGTKGadget( GadgetMap.ValueForKey( TGTKBytePtr.Set(handle) ) )
 End Function
 
 Rem

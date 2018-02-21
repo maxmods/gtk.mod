@@ -3995,7 +3995,11 @@ Type TGTKTabber Extends TGTKContainer
 		If state & STATE_SELECTED Then
 			If gtk_notebook_get_current_page(handle) <> index Then
 				ignoreChange = True
+?bmxng
+				IWrappedSystemDriver(SystemDriver()).GetDriver().Poll()
+?Not bmxng
 				brl.System.Driver.Poll() ' update events
+?
 				gtk_notebook_set_current_page(handle, index)
 			End If
 		End If
@@ -4913,7 +4917,11 @@ Type TGTKDefaultTextArea Extends TGTKTextArea
 		MemFree(textPtr)
 
 		gtk_text_buffer_get_end_iter(_textBuffer, _end)
+?bmxng
+		IWrappedSystemDriver(SystemDriver()).GetDriver().Poll()
+?Not bmxng
 		brl.System.Driver.Poll() ' update events, before scrolling to the end...
+?
 		gtk_text_view_scroll_to_iter(handle, _end, 0, False, 0, 0)
 		
 		bmx_gtk3_gtktextiter_free(_end)
