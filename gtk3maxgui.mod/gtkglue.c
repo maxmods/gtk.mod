@@ -27,7 +27,7 @@ int bmx_gtk3_gtkdesktop_gethertz() {
 #if GTK_MINOR_VERSION >= 22
 	GdkMonitor * monitor = gdk_display_get_primary_monitor(gdk_display_get_default());
 	int rate = gdk_monitor_get_refresh_rate(monitor);
-	Return rate / 1000;
+	return rate / 1000;
 #else
 	return 60;
 #endif
