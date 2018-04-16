@@ -478,7 +478,7 @@ Extern
 	Function gtk_text_buffer_get_char_count:Int(handle:Byte Ptr)
 	Function gtk_text_buffer_get_selection_bounds:Int(handle:Byte Ptr, _start:Byte Ptr, _end:Byte Ptr)
 	Function gtk_text_buffer_set_text(handle:Byte Ptr, txt:Byte Ptr, length:Int)
-	Function gtk_text_buffer_place_cursor(handle:Byte Ptr, where:Byte Ptr)
+	Function gtk_text_buffer_place_cursor(handle:Byte Ptr, where_:Byte Ptr)
 	Function gtk_text_buffer_select_range(handle:Byte Ptr, ins:Byte Ptr, bound:Byte Ptr)
 	Function gtk_text_buffer_cut_clipboard(handle:Byte Ptr, clipboard:Byte Ptr, editable:Int)
 	Function gtk_text_buffer_copy_clipboard(handle:Byte Ptr, clipboard:Byte Ptr)
