@@ -62,6 +62,8 @@ Extern
 	Function gdk_screen_get_height:Int(handle:Byte Ptr)
 	Function gdk_screen_get_system_visual:Byte Ptr(handle:Byte Ptr)
 	Function gdk_screen_get_display:Byte Ptr(screen:Byte Ptr)
+	Function gdk_screen_get_n_monitors:Int(screen:Byte Ptr)
+	Function gdk_screen_get_monitor_scale_factor:Int(screen:Byte Ptr, monitor:Int)
 	
 	' visuals
 	Function gdk_visual_get_depth:Int(handle:Byte Ptr)
@@ -554,6 +556,9 @@ Extern
 	Function gtk_font_chooser_dialog_new:Byte Ptr(title:Byte Ptr, parent:Byte Ptr)
 	Function gtk_font_chooser_set_font_desc(handle:Byte Ptr, desc:Byte Ptr)
 	Function gtk_font_chooser_get_font_desc:Byte Ptr(handle:Byte Ptr)
+	
+	' GdkMonitor
+	'Function gdk_display_get_primary_monitor:Byte Ptr(display:Byte Ptr)
 	
 	' glue
 	Function bmx_gtk3_gtkdesktop_gethertz:Int()

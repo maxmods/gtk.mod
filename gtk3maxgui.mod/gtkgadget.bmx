@@ -408,6 +408,14 @@ Type TGTKDesktop Extends TGTKGadget
 	Method GetHertz:Int()
 		Return bmx_gtk3_gtkdesktop_gethertz()
 	End Method
+	
+	Rem
+	bbdoc: Returns the desktop scale factor that maps from window coordiantes to the actual device pixels.
+	about: On traditional systems this is 1, but on very high density outputs this can be a higher value (often 2).
+	End Rem
+	Method ScaleFactor:Int()
+		Return gdk_screen_get_monitor_scale_factor(handle, 0)
+	End Method
 
 End Type
 
