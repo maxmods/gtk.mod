@@ -14,7 +14,7 @@ window = CreateWindow("My Window",30,20,600,440,,15|WINDOW_ACCEPTFILES)
 htmlview = CreateHTMLView(0,0,ClientWidth(window),ClientHeight(window),window)
 SetGadgetLayout htmlview,1,1,1,1 
 
-HtmlViewGo htmlview,"www.blitzmax.com"
+HtmlViewGo htmlview,"www.blitzmax.org"
 
 While WaitEvent()
 	Print CurrentEvent.ToString()
